@@ -11,7 +11,7 @@ const tweets = [];
 app.post('/sign-up', (req, res) => {
     const { avatar,username } = req.body;
     console.log(req.headers);
-    if (!username || !avatar) {
+    if (!username || !avatar || typeof(username) !== 'string' || !(avatar.startsWith('http'))) {
         return res.sendStatus(400);
     }
     user.push({
@@ -22,10 +22,9 @@ app.post('/sign-up', (req, res) => {
 });
 
 app.post('/tweets', (req, res) => {
-    const body = req.body;
-    const { tweet } = body;
+    const { tweet } = req.body;
     const username = req.headers.user;
-    if (!username || !tweet) {
+    if (!username || !tweet || typeof(tweet) !== 'string' || typeof(username) !== 'string') {
         return res.sendStatus(400);
     }
     tweets.push({
